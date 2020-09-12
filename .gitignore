@@ -1,0 +1,8 @@
+.vscode
+*.pyc
+build/
+devel/
+lib/
+.idea/
+cmake-build-debug/
+cmake-build-release/
