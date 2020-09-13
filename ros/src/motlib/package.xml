@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>motlib_ros</name>
+  <name>motlib</name>
   <version>0.0.0</version>
   <description>A multiple object tracking library project</description>
 
