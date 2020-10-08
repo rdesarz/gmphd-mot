@@ -1,9 +1,8 @@
-#include "ros/ros.h"
-#include "std_msgs/String.h"
-
 #include <sstream>
 
-#include "motlib/model.h"
+#include "motlib/filter.hpp"
+#include "ros/ros.h"
+#include "std_msgs/String.h"
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "test_node");
