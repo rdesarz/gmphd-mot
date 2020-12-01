@@ -93,12 +93,13 @@ namespace motlib {
 
     template<typename DynamicModel, typename MeasurementModel,
              typename BirthModel>
-    class Filter {
+    class GMPhdFilter {
     public:
-        Filter(DynamicModel *dynamic_model, MeasurementModel *measurement_model,
-               BirthModel *birth_model, double probability_survival,
-               double probability_detection, double pruning_threshold,
-               double merge_threshold)
+        GMPhdFilter(DynamicModel *dynamic_model,
+                    MeasurementModel *measurement_model,
+                    BirthModel *birth_model, double probability_survival,
+                    double probability_detection, double pruning_threshold,
+                    double merge_threshold)
             : m_dynamic_model{dynamic_model},
               m_measurement_model{measurement_model},
               m_birth_model{birth_model},
@@ -130,9 +131,9 @@ namespace motlib {
                       std::back_inserter(m_intensity.components));
         }
 
-        // TODO: Deduce type from an other type
-        template<typename Measurement>
-        void update(const aligned_vec_t<Measurement> &measurements) {
+        void update(
+                const aligned_vec_t<typename MeasurementModel::MeasurementType>
+                        &measurements) {
             m_intensity = updateIntensity(measurements, m_intensity,
                                           m_probability_detection,
                                           *m_measurement_model);
