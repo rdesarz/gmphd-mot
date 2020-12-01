@@ -23,45 +23,61 @@
  * SOFTWARE.
  */
 
-#ifndef MOTLIB_DYNAMIC_MODEL_IMPL_H
-#define MOTLIB_DYNAMIC_MODEL_IMPl_H
+#ifndef MOTLIB_DYNAMIC_MODELS_H
+#define MOTLIB_DYNAMIC_MODELS_H
 
 #include <eigen3/Eigen/Dense>
 
+#include "timer.hpp"
+
 namespace motlib {
 
-    template<typename Timer>
-    class ConstantVelocity2DDynamicModel {
-    public:
-        explicit ConstantVelocity2DDynamicModel(const Timer &timer)
-            : m_timer{timer} {
-            // clang-format off
-            auto delta_t = m_timer.getElapsedTime();
-            m_state_transition_matrix << 1, 0, delta_t,       0,
-                                         0, 1,       0, delta_t,
-                                         0, 0,       1,       0,
-                                         0, 0,       0,       1;
-
-            m_process_noise <<
-            std::pow(delta_t, 4)/4.,                     0., std::pow(delta_t, 3)/2,                        0,
-                                 0., std::pow(delta_t, 4)/4,                     0., std::pow(delta_t, 3) / 2,
-            std::pow(delta_t, 3)/2.,                     0.,   std::pow(delta_t, 2),                       0.,
-                                 0., std::pow(delta_t, 3)/2,                     0.,     std::pow(delta_t, 2);
-            // clang-format on
+    template<typename T>
+    struct TwoDimensionalCVDynamicModel {
+        TwoDimensionalCVDynamicModel(const motlib::Timer& timer,
+                                     T process_noise)
+            : m_timer{timer},
+              m_process_noise_std_dev{process_noise} {
+            m_state_transition_matrix = Eigen::Matrix4d::Identity();
+            m_process_noise = Eigen::Matrix4d::Identity();
         }
 
-        const Eigen::Matrix4d &state_transition() {
+        const Eigen::Matrix<T, 4, 4>& state_transition() {
+            m_state_transition_matrix(0, 2) = m_timer.getElapsedTime();
+            m_state_transition_matrix(1, 3) = m_timer.getElapsedTime();
             return m_state_transition_matrix;
         }
 
-        const Eigen::Matrix4d &process_noise() { return m_process_noise; }
+        const Eigen::Matrix<T, 4, 4>& process_noise() {
+            const auto delta_t = m_timer.getElapsedTime();
+            const double squared_noise_std =
+                    std::pow(m_process_noise_std_dev, 2);
+
+            m_process_noise(0, 0) =
+                    std::pow(delta_t, 4) / 4 * squared_noise_std;
+            m_process_noise(0, 2) =
+                    std::pow(delta_t, 3) / 2 * squared_noise_std;
+            m_process_noise(1, 1) =
+                    std::pow(delta_t, 4) / 4 * squared_noise_std;
+            m_process_noise(1, 3) =
+                    std::pow(delta_t, 3) / 2 * squared_noise_std;
+            m_process_noise(2, 0) =
+                    std::pow(delta_t, 3) / 2 * squared_noise_std;
+            m_process_noise(2, 2) = std::pow(delta_t, 2) * squared_noise_std;
+            m_process_noise(3, 1) =
+                    std::pow(delta_t, 3) / 2 * squared_noise_std;
+            m_process_noise(3, 3) = std::pow(delta_t, 2) * squared_noise_std;
+
+            return m_process_noise;
+        }
 
     private:
-        Eigen::Matrix4d m_state_transition_matrix;
-        Eigen::Matrix4d m_process_noise;
-        const Timer &m_timer;
+        Eigen::Matrix<T, 4, 4> m_state_transition_matrix;
+        Eigen::Matrix<T, 4, 4> m_process_noise;
+        T m_process_noise_std_dev;
+        const motlib::Timer& m_timer;
     };
 
 }// namespace motlib
 
-#endif// MOTLIB_DYNAMIC_MODEL_IMPl_H
+#endif// MOTLIB_DYNAMIC_MODELS_H
