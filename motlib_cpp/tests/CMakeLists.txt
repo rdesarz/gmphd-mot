@@ -16,7 +16,6 @@ include(GoogleTest)
 
 add_executable(test_motlib
         ${CMAKE_CURRENT_SOURCE_DIR}/test_filter.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/test_dynamic_model_impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test_update_components.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test_postprocessing.cpp
         )

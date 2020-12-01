@@ -38,6 +38,8 @@ namespace {
 
     class TestMeasurementModel {
     public:
+        using MeasurementType = Eigen::Matrix<double, 2, 1>;
+
         TestMeasurementModel() {
             // clang-format off
             m_state_transition_matrix << 1, 0, 0, 0,

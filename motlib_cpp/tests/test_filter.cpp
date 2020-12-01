@@ -65,6 +65,8 @@ namespace {
 
     class TestMeasurementModel {
     public:
+        using MeasurementType = Eigen::Matrix<double, 2, 1>;
+
         TestMeasurementModel() {
             // clang-format off
             m_state_transition_matrix << 1, 0, 0, 0,
@@ -122,7 +124,7 @@ namespace {
         TestDynamicModel dynamic_model;
         TestBirthModel birth_model;
         TestMeasurementModel measurement_model;
-        Filter<TestDynamicModel, TestMeasurementModel, TestBirthModel> filter;
+        GMPhdFilter<TestDynamicModel, TestMeasurementModel, TestBirthModel> filter;
     };
 }// namespace
 
