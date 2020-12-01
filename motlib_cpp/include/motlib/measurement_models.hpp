@@ -30,9 +30,12 @@
 
 namespace motlib {
 
+    template<typename T>
     class TwoDimensionalLinearMeasurementModel {
     public:
-        TwoDimensionalLinearMeasurementModel(double noise_covariance) {
+        using MeasurementType = Eigen::Matrix<T, 2, 1>;
+
+        TwoDimensionalLinearMeasurementModel(T noise_covariance) {
             // clang-format off
             m_state_transition_matrix << 1, 0, 0, 0,
                                          0, 1, 0, 0;
@@ -42,15 +45,17 @@ namespace motlib {
             // clang-format on
         }
 
-        const Eigen::Matrix<double, 2, 4>& state_transition() {
+        const Eigen::Matrix<T, 2, 4>& state_transition() {
             return m_state_transition_matrix;
         }
 
-        const Eigen::Matrix2d& process_noise() { return m_measurement_noise; }
+        const Eigen::Matrix<T, 2, 2>& measurement_noise() {
+            return m_measurement_noise;
+        }
 
     private:
-        Eigen::Matrix<double, 2, 4> m_state_transition_matrix;
-        Eigen::Matrix2d m_measurement_noise;
+        Eigen::Matrix<T, 2, 4> m_state_transition_matrix;
+        Eigen::Matrix<T, 2, 2> m_measurement_noise;
     };
 
 }// namespace motlib
