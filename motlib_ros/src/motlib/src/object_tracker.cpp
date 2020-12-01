@@ -3,42 +3,11 @@
 #include "motlib/filter.hpp"
 #include "motlib/intensity.hpp"
 #include "motlib/measurement_models.hpp"
+#include "motlib/birth_models.hpp"
 #include "motlib/timer.hpp"
 #include "ros/ros.h"
 #include "sensor_msgs/PointCloud.h"
 
-namespace tracker2d {
-
-    struct BirthModel {
-        BirthModel() {
-            // Create a squared field of view with possible appeareance on the side of it
-            for (int i = 0; i < 10; ++i) {
-                // clang-format off
-                m_intensity.components.push_back(motlib::GaussianMixtureComponent4d{});
-                m_intensity.components.back().weight() = 0.1;
-                m_intensity.components.back().mean() << -5, static_cast<double>(i), 0.2, 0.;
-                m_intensity.components.back().covariance() << 0.5, 0, 0, 0,
-                                                            0, 0.5, 0, 0,
-                                                            0, 0, 0.1, 0,
-                                                            0, 0, 0, 0.1;
-
-                m_intensity.components.push_back(motlib::GaussianMixtureComponent4d{});
-                m_intensity.components.back().weight() = 0.1;
-                m_intensity.components.back().mean() << 5, static_cast<double>(i), -0.2, 0.;
-                m_intensity.components.back().covariance() << 0.5, 0, 0, 0,
-                                                            0, 0.5, 0, 0,
-                                                            0, 0, 0.1, 0,
-                                                            0, 0, 0, 0.1;
-                // clang-format on
-            }
-        }
-
-        const motlib::Intensity4d& intensity() const { return m_intensity; }
-
-        motlib::Intensity4d m_intensity;
-    };
-
-};// namespace tracker2d
 
 motlib::aligned_vec_t<typename motlib::TwoDimensionalLinearMeasurementModel<
         double>::MeasurementType>
@@ -75,7 +44,7 @@ int main(int argc, char** argv) {
     motlib::Timer timer;
     motlib::TwoDimensionalCVDynamicModel dynamic_model(timer,
                                                        process_noise_cov);
-    tracker2d::BirthModel birth_model;
+    motlib::RectangularFovSideAppearanceBirthModel birth_model(-5., 5., 0., 10., 0.2);
     motlib::TwoDimensionalLinearMeasurementModel measurement_model(
             measurement_noise_cov);
 
