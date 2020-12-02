@@ -93,53 +93,53 @@ TEST_F(TestPostProcessorFixture, TestPruning) {
     ASSERT_DOUBLE_EQ(intensity.components.front().weight(), 0.1);
 }
 
-TEST_F(TestPostProcessorFixture, TestMergeScoreOfTwoComponents) {
-    const double expected_score = 0.68;
-
-    const auto score = motlib::computeMergeScore(component_0, component_1);
-
-    ASSERT_DOUBLE_EQ(score, expected_score);
-}
-
-TEST_F(TestPostProcessorFixture, TestMergeThreeEqualsComponents) {
-    aligned_vec_t<GaussianMixtureComponent4d> components;
-    components.push_back(component_2);
-    components.push_back(component_2);
-    components.push_back(component_2);
-
-    const auto merged_components = motlib::mergeComponents(components);
-
-    ASSERT_DOUBLE_EQ(merged_components.weight(), 0.3);
-    GTEST_ASSERT_EQ(merged_components.mean(), component_2.mean());
-    GTEST_ASSERT_EQ(merged_components.covariance(), component_2.covariance());
-}
-
-TEST_F(TestPostProcessorFixture, TestMergeTwoDifferentComponents) {
-    aligned_vec_t<GaussianMixtureComponent4d> components;
-    components.push_back(component_3);
-    components.push_back(component_4);
-
-    const auto merged_components = motlib::mergeComponents(components);
-
-    GaussianMixtureComponent4d::MeanType expected_mean;
-    expected_mean << 1.5, 1.5, 1.5, 1.5;
-    ASSERT_DOUBLE_EQ(merged_components.mean()(0), expected_mean(0));
-    ASSERT_DOUBLE_EQ(merged_components.mean()(1), expected_mean(1));
-    ASSERT_DOUBLE_EQ(merged_components.mean()(2), expected_mean(2));
-    ASSERT_DOUBLE_EQ(merged_components.mean()(3), expected_mean(3));
-}
-
-TEST_F(TestPostProcessorFixture, TestMergeIntensityTwoCloseComponents) {
-    Intensity4d intensity;
-    intensity.components.push_back(component_2);
-    intensity.components.back().weight() = 0.6;
-    intensity.components.push_back(component_2);
-    intensity.components.back().weight() = 0.3;
-    intensity.components.push_back(component_0);
-    intensity.components.back().weight() = 0.1;
-
-    motlib::merging(intensity, 0.5);
-
-    ASSERT_DOUBLE_EQ(intensity.components.size(), 2);
-    ASSERT_DOUBLE_EQ(intensity.components[0].weight(), 0.9);
-}
+// TEST_F(TestPostProcessorFixture, TestMergeScoreOfTwoComponents) {
+//     const double expected_score = 0.68;
+//
+//     const auto score = motlib::computeMergeScore(component_0, component_1);
+//
+//     ASSERT_DOUBLE_EQ(score, expected_score);
+// }
+//
+// TEST_F(TestPostProcessorFixture, TestMergeThreeEqualsComponents) {
+//     aligned_vec_t<GaussianMixtureComponent4d> components;
+//     components.push_back(component_2);
+//     components.push_back(component_2);
+//     components.push_back(component_2);
+//
+//     const auto merged_components = motlib::mergeComponents(components);
+//
+//     ASSERT_DOUBLE_EQ(merged_components.weight(), 0.3);
+//     GTEST_ASSERT_EQ(merged_components.mean(), component_2.mean());
+//     GTEST_ASSERT_EQ(merged_components.covariance(), component_2.covariance());
+// }
+//
+// TEST_F(TestPostProcessorFixture, TestMergeTwoDifferentComponents) {
+//     aligned_vec_t<GaussianMixtureComponent4d> components;
+//     components.push_back(component_3);
+//     components.push_back(component_4);
+//
+//     const auto merged_components = motlib::mergeComponents(components);
+//
+//     GaussianMixtureComponent4d::MeanType expected_mean;
+//     expected_mean << 1.5, 1.5, 1.5, 1.5;
+//     ASSERT_DOUBLE_EQ(merged_components.mean()(0), expected_mean(0));
+//     ASSERT_DOUBLE_EQ(merged_components.mean()(1), expected_mean(1));
+//     ASSERT_DOUBLE_EQ(merged_components.mean()(2), expected_mean(2));
+//     ASSERT_DOUBLE_EQ(merged_components.mean()(3), expected_mean(3));
+// }
+//
+// TEST_F(TestPostProcessorFixture, TestMergeIntensityTwoCloseComponents) {
+//     Intensity4d intensity;
+//     intensity.components.push_back(component_2);
+//     intensity.components.back().weight() = 0.6;
+//     intensity.components.push_back(component_2);
+//     intensity.components.back().weight() = 0.3;
+//     intensity.components.push_back(component_0);
+//     intensity.components.back().weight() = 0.1;
+//
+//     motlib::merging(intensity, 0.5);
+//
+//     ASSERT_DOUBLE_EQ(intensity.components.size(), 2);
+//     ASSERT_DOUBLE_EQ(intensity.components[0].weight(), 0.9);
+// }
