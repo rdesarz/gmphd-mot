@@ -1,33 +1,38 @@
-# Multiple object tracking for ROS
+# Multiple object tracking library
 
-This project provides a Python and a C++ (not yet implemented) library for object tracking applications. It will also contain examples to show how it can be integrated into a ROS project.  
+This aim of this project is to develop a generic and extensible library for multiple object tracking. This a work in progress and 
+it currently integrates an implementation of the Gaussian Mixture Probability Hypothesis Density filter used to estimate 
+states of the target and some dynamic and measurement models. A tracker implementation will follow soon as well as a tutorial 
+on how to use the library in an other project.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
 
-### Prerequisites
-
-This project is based on ROS and is currently developped for ROS melodic. Check http://wiki.ros.org/melodic/Installation for the installation instruction 
-
 ### Installation
 
-First step is to clone this repository into your ROS workspace directory:
+This library itself depends on Eigen 3 and was tested only on Ubuntu 18.04 and 20.04. You can download Eigen using `apt`:
+
+```
+apt-get install libeigen3-dev
+```
+
+The library is stored in folder `motlib_cpp`as a standalone CMake project. To install it first clone the project and run 
+`make`
 
 ```
 git clone https://github.com/rdesarz/motlib.git
-```
-
-Then you have to build motlib so that the ROS project can link with it. Please make sure to create a build folder in the root of the project as it is required
-when building the ROS part.
-
-```
-mkdir build
+cd motlib_cpp
+mkdir build 
 cd build
-cmake ../
-make -j4
+cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release ..
+sudo make install
 ```
 
-Then move to the `ros` folder of the repo and run `catkin_make` to build the package 
+A ROS package is also provided with examples. It currently provides a simple 2D state estimation example with random 
+single point targets. You will need ROS Noetic to run it. Please check http://wiki.ros.org/noetic/Installation for the 
+installation instruction.
+
+Then move to `motlib_ros` folder, run `catkin_make` to build the package 
 
 ```
 cd ros
@@ -44,8 +49,12 @@ An ROS launch file provides a tracking example of multiple single points target 
 roslaunch motlib_ros target_tracking_example.launch
 ```
 
-## Currently working on
-This project is a work in progress. The first step is to provide a fast and efficient C++ implementation of the first algorithm (Gaussian Mixture PHD filter). 
+## Further work
+* Add benchmarking for performance optimization
+* Add tracker implementation
+* Add other tracking algorithm (multiple kalman filters, multiple hypothesis tracking, etc)
+* Investigate potential use of parallel programming  
+* Add tracking performance metrics implementation
 
 ## Authors
 
