@@ -14,9 +14,10 @@ endif()
 # Find packages #
 #################
 
-find_package(catkin REQUIRED COMPONENTS roscpp)
+find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge image_transport)
 find_package(Eigen3 3.3 REQUIRED)
 find_package(motlib REQUIRED)
+find_package(OpenCV REQUIRED)
 
 #################################
 # catkin specific configuration #
