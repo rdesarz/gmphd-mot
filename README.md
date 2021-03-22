@@ -1,9 +1,8 @@
 # Multiple object tracking library
 
-This aim of this project is to develop a generic and extensible library for multiple object tracking. This a work in progress and 
+This aim of this project is to develop a library for multiple object tracking. This a work in progress and 
 it currently integrates an implementation of the Gaussian Mixture Probability Hypothesis Density filter used to estimate 
-states of the target and some dynamic and measurement models. A tracker implementation will follow soon as well as a tutorial 
-on how to use the library in an other project.
+states of the target and some dynamic and measurement models. 
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
@@ -21,7 +20,7 @@ The library is stored in folder `motlib_cpp`as a standalone CMake project. To in
 
 ```
 git clone https://github.com/rdesarz/motlib.git
-cd motlib_cpp
+cd motlib/motlib_cpp
 mkdir build 
 cd build
 cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release ..
@@ -52,7 +51,7 @@ roslaunch motlib_ros target_tracking_example.launch
 ## Further work
 * Add benchmarking for performance optimization
 * Add tracker implementation
-* Add other tracking algorithm (multiple kalman filters, multiple hypothesis tracking, etc)
+* Implement other tracking algorithm (multiple kalman filters, multiple hypothesis tracking, etc)
 * Investigate potential use of parallel programming  
 * Add tracking performance metrics implementation
 
