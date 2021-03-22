@@ -31,10 +31,10 @@ A ROS package is also provided with examples. It currently provides a simple 2D 
 single point targets. You will need ROS Noetic to run it. Please check http://wiki.ros.org/noetic/Installation for the 
 installation instruction.
 
-Then move to `motlib_ros` folder, run `catkin_make` to build the package 
+Then from the root folder, move to `motlib_ros` folder, run `catkin_make` to build the package 
 
 ```
-cd ros
+cd motlib_ros
 catkin_make  
 ```
 
@@ -42,9 +42,10 @@ catkin_make
 
 ### 2D multiple non-extended target 
 
-An ROS launch file provides a tracking example of multiple single points target in a squared field of view. You can run it using the following command:
+An ROS launch file provides a tracking example of multiple single points target in a squared field of view. You can run it using the following command in `motlib_ros` folder:
 
 ```
+source devel/setup.bash
 roslaunch motlib_ros target_tracking_example.launch
 ```
 
