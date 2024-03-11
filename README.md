@@ -1,4 +1,4 @@
-# GM-PHD filter based multiple object tracking
+# GM-PHD filter based online multiple object tracking
 
 This aim of this project is to develop a library for multiple object tracking. This a work in progress and 
 it currently integrates an implementation of the Gaussian Mixture Probability Hypothesis Density filter used to estimate 
