@@ -1,4 +1,4 @@
-# Multiple object tracking library
+# GM-PHD filter based multiple object tracking
 
 This aim of this project is to develop a library for multiple object tracking. This a work in progress and 
 it currently integrates an implementation of the Gaussian Mixture Probability Hypothesis Density filter used to estimate 
@@ -48,13 +48,6 @@ An ROS launch file provides a tracking example of multiple single points target 
 source devel/setup.bash
 roslaunch motlib_ros target_tracking_example.launch
 ```
-
-## Further work
-* Add benchmarking for performance optimization
-* Add tracker implementation
-* Implement other tracking algorithm (multiple kalman filters, multiple hypothesis tracking, etc)
-* Investigate potential use of parallel programming  
-* Add tracking performance metrics implementation
 
 ## Authors
 
